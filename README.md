@@ -1,4 +1,4 @@
-Cropper ( Under Development ! Do not use )
+Cropper
 ===========
 Yii-Framework extension for uploading and cropping images
 
