@@ -53,7 +53,7 @@ class UploadAction extends Action
             $model->addRule($this->uploadParam, 'image', [
                 'maxSize' => $this->maxSize,
                 'tooBig' => Yii::t('cropper', 'TOO_BIG_ERROR', ['size' => $this->maxSize / (1024 * 1024)]),
-                'extensions' => explode(', ', $this->extensions),
+          //      'extensions' => explode(', ', $this->extensions),
                 'wrongExtension' => Yii::t('cropper', 'EXTENSION_ERROR', ['formats' => $this->extensions])
             ])->validate();
 
