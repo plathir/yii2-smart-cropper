@@ -13,6 +13,7 @@ use yii\imagine\Image;
 use Imagine\Image\Box;
 use Yii;
 
+
 class UploadAction extends Action
 {
     public $path;

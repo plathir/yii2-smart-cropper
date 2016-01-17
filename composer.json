@@ -10,13 +10,9 @@
             "email": "plathir@gmail.com"
         }
     ],
-    "minimum-stability" : "dev",
     "require": {
         "yiisoft/yii2": "*",
-        "yiisoft/yii2-imagine": "*",
-        "bower-asset/Jcrop": "=0.9.12",
-        "bower-asset/simple-ajax-uploader": "*"
-        
+        "yiisoft/yii2-imagine": "*"
     },
     "autoload": {
         "psr-4": {

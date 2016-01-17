@@ -1,9 +1,4 @@
 <?php
-/**
- * @var \yii\db\ActiveRecord $model
- * @var \plathir\cropper\Widget $widget
- *
- */
 
 use yii\helpers\Html;
 
@@ -25,7 +20,7 @@ use yii\helpers\Html;
         <button type="button" class="btn btn-success crop_photo btn-sm" aria-label="<?= Yii::t('cropper', 'CROP_PHOTO');?>">
             <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span> <?= Yii::t('cropper', 'CROP_PHOTO');?>
         </button>
-        <button type="button" class="btn btn-info upload_new_photo btn-sm" aria-label="<?= Yii::t('cropper', 'UPLOAD_ANOTHER_PHOTO');?>">
+        <button type="button" class="btn btn-info upload_new_photo btn-sm aria-label="<?= Yii::t('cropper', 'UPLOAD_ANOTHER_PHOTO');?>">
         <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> <?= Yii::t('cropper', 'UPLOAD_ANOTHER_PHOTO');?>
         </button>
     </div>

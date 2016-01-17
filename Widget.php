@@ -2,7 +2,6 @@
 
 namespace plathir\cropper;
 
-use plathir\cropper\assets\CropperAsset;
 use yii\base\InvalidConfigException;
 use yii\helpers\Json;
 use yii\widgets\InputWidget;
@@ -59,7 +58,7 @@ class Widget extends InputWidget
     public function registerClientAssets()
     {
         $view = $this->getView();
-        $assets = CropperAsset::register($view);
+        $assets = Asset::register($view);
 
         if ($this->noPhotoImage == '') {
             $this->noPhotoImage = $assets->baseUrl . '/img/nophoto.png';
