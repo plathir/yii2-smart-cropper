@@ -15,7 +15,7 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-imagine": "*",
         "bower-asset/Jcrop": "=0.9.12",
-        "bower-asset/simple-ajax-uploader": "*"
+        "bower-asset/simple-ajax-uploader": "@dev"
     },
     "autoload": {
         "psr-4": {
