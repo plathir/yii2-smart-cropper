@@ -20,7 +20,7 @@ class UploadAction extends Action
     public $url;
     public $uploadParam = 'file';
     public $maxSize = 2097152;
-    public $extensions = 'jpeg, jpg, png, gif';
+    public $extensions = 'jpeg, jpg, png, gif' ;
     public $width = 200;
     public $height = 200;
 
@@ -50,13 +50,15 @@ class UploadAction extends Action
         if (Yii::$app->request->isPost) {
             $file = UploadedFile::getInstanceByName($this->uploadParam);
             $model = new DynamicModel(compact($this->uploadParam));
-            $model->addRule($this->uploadParam, 'image', [
+            
+            $model->addRule($this->uploadParam, 'file', [
                 'maxSize' => $this->maxSize,
                 'tooBig' => Yii::t('cropper', 'TOO_BIG_ERROR', ['size' => $this->maxSize / (1024 * 1024)]),
-          //      'extensions' => explode(', ', $this->extensions),
+                'extensions' => explode(', ', $this->extensions),
+                'checkExtensionByMimeType' => false, 
                 'wrongExtension' => Yii::t('cropper', 'EXTENSION_ERROR', ['formats' => $this->extensions])
             ])->validate();
-
+            
             if ($model->hasErrors()) {
                 $result = [
                     'error' => $model->getFirstError($this->uploadParam)
@@ -76,7 +78,8 @@ class UploadAction extends Action
 
                 if ($image->save($this->path . $model->{$this->uploadParam}->name)) {
                     $result = [
-                        'filelink' => $this->url . $model->{$this->uploadParam}->name
+                       // 'filelink' => $this->url . $model->{$this->uploadParam}->name
+                        'filelink' => $model->{$this->uploadParam}->name
                     ];
                 } else {
                     $result = [

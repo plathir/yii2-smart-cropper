@@ -7,13 +7,14 @@ use yii\helpers\Json;
 use yii\widgets\InputWidget;
 use Yii;
 
-class Widget extends InputWidget
-{
+class Widget extends InputWidget {
+
     public $uploadParameter = 'file';
     public $width = 200;
     public $height = 200;
     public $label = '';
     public $uploadUrl;
+    public $previewUrl;
     public $noPhotoImage = '';
     public $maxSize = 2097152;
     public $cropAreaWidth = 300;
@@ -23,8 +24,7 @@ class Widget extends InputWidget
     /**
      * @inheritdoc
      */
-    public function init()
-    {
+    public function init() {
         parent::init();
         self::registerTranslations();
 
@@ -42,21 +42,19 @@ class Widget extends InputWidget
     /**
      * @inheritdoc
      */
-    public function run()
-    {
+    public function run() {
         $this->registerClientAssets();
 
         return $this->render('widget', [
-            'model' => $this->model,
-            'widget' => $this
+                    'model' => $this->model,
+                    'widget' => $this
         ]);
     }
 
     /**
      * Register widget asset.
      */
-    public function registerClientAssets()
-    {
+    public function registerClientAssets() {
         $view = $this->getView();
         $assets = Asset::register($view);
 
@@ -66,6 +64,7 @@ class Widget extends InputWidget
 
         $settings = [
             'url' => $this->uploadUrl,
+            'previewUrl' => $this->previewUrl,
             'name' => $this->uploadParameter,
             'maxSize' => $this->maxSize / 1024,
             'allowedExtensions' => explode(', ', $this->extensions),
@@ -75,16 +74,14 @@ class Widget extends InputWidget
         ];
 
         $view->registerJs(
-            'jQuery("#' . $this->options['id'] . '").siblings(".new_photo_area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');',
-            $view::POS_READY
+                'jQuery("#' . $this->options['id'] . '").siblings(".new_photo_area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
         );
     }
 
     /**
      * Register widget translations.
      */
-    public static function registerTranslations()
-    {
+    public static function registerTranslations() {
         if (!isset(Yii::$app->i18n->translations['cropper']) && !isset(Yii::$app->i18n->translations['cropper/*'])) {
             Yii::$app->i18n->translations['cropper'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
@@ -96,4 +93,5 @@ class Widget extends InputWidget
             ];
         }
     }
+
 }
