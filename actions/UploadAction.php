@@ -18,11 +18,13 @@ class UploadAction extends Action
 {
     public $path;
     public $url;
+    public $temp_path;
     public $uploadParam = 'file';
     public $maxSize = 2097152;
     public $extensions = 'jpeg, jpg, png, gif' ;
     public $width = 200;
     public $height = 200;
+    
 
     /**
      * @inheritdoc
@@ -35,6 +37,13 @@ class UploadAction extends Action
         } else {
             $this->url = rtrim($this->url, '/') . '/';
         }
+    // temp path     
+        if ($this->temp_path === null) {
+            throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'temp_path']));
+        } else {
+            $this->url = rtrim($this->temp_path, '/') . '/';
+        }
+        
         if ($this->path === null) {
             throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'path']));
         } else {
@@ -76,9 +85,8 @@ class UploadAction extends Action
                     new Box($this->width, $this->height)
                 );
 
-                if ($image->save($this->path . $model->{$this->uploadParam}->name)) {
+                if ($image->save($this->temp_path . $model->{$this->uploadParam}->name)) {
                     $result = [
-                       // 'filelink' => $this->url . $model->{$this->uploadParam}->name
                         'filelink' => $model->{$this->uploadParam}->name
                     ];
                 } else {

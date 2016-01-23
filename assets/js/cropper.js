@@ -45,7 +45,7 @@
 
                         $widget.find('.new_photo_area').append('<img src="' + e.target.result + '">');
                         $img = $widget.find('.new_photo_area img');
-
+						
                         var x1 = ($img.width() - width) / 2;
                         var y1 = ($img.height() - height) / 2;
                         var x2 = x1 + width;
@@ -69,7 +69,7 @@
                         showError($widget, response.error);
                         return;
                     }
-                    $widget.find('.thumbnail').attr({'src' : response.filelink});
+                    $widget.find('.thumbnail').attr({'src' : settings['previewUrl'] + '/' + response.filelink});
                     $widget.find('.photo_field').val(response.filelink);
                 },
                 onSizeError: function() {
