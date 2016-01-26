@@ -8,14 +8,14 @@ use yii\helpers\Html;
         <button type="button" class="btn btn-danger delete_photo" aria-label="<?= Yii::t('cropper', 'DELETE_PHOTO'); ?>">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?= Yii::t('cropper', 'DELETE_PHOTO'); ?>
         </button>
+
     </p>
-    <?= Html::activeHiddenInput($model,  $widget->attribute, ['class' => 'photo_field']); ?>
+    <?= Html::activeHiddenInput($model, $widget->attribute, ['class' => 'photo_field']); ?>
     <?=
     Html::img(
             ($model->{$widget->attribute} != '') ? $widget->previewUrl . '/' . $model->{$widget->attribute} : $widget->noPhotoImage, ['style' => 'height: ' . $widget->height . 'px; width: ' . $widget->width . 'px', 'class' => 'thumbnail center-block', 'data-no-photo' => $widget->noPhotoImage]
     );
     ?>
-
     <div class="cropper_buttons hidden">
         <button type="button" class="btn btn-success crop_photo btn-sm" aria-label="<?= Yii::t('cropper', 'CROP_PHOTO'); ?>">
             <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span> <?= Yii::t('cropper', 'CROP_PHOTO'); ?>

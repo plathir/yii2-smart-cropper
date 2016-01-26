@@ -16,8 +16,8 @@ use Yii;
 
 class UploadAction extends Action
 {
-    public $path;
-    public $url;
+//    public $path;
+//    public $url;
     public $temp_path;
     public $uploadParam = 'file';
     public $maxSize = 2097152;
@@ -32,23 +32,24 @@ class UploadAction extends Action
     public function init()
     {
         Widget::registerTranslations();
-        if ($this->url === null) {
-            throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'url']));
-        } else {
-            $this->url = rtrim($this->url, '/') . '/';
-        }
-    // temp path     
+//        if ($this->url === null) {
+//            throw new InvalidConfigException(Yii::t('cropper', 'MISS                                             ING_ATTRIBUTE', ['attribute' => 'url']));
+//        } else {
+//            $this->url = rtrim($this->url, '/') . '/';
+//        }
+//        
+//        if ($this->path === null) {
+//            throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'path']));
+//        } else {
+//            $this->path = rtrim(Yii::getAlias($this->path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+//        }
+        
         if ($this->temp_path === null) {
             throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'temp_path']));
         } else {
-            $this->url = rtrim($this->temp_path, '/') . '/';
+            $this->temp_path = rtrim(Yii::getAlias($this->temp_path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         }
         
-        if ($this->path === null) {
-            throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'path']));
-        } else {
-            $this->path = rtrim(Yii::getAlias($this->path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        }
     }
 
     /**
@@ -87,7 +88,7 @@ class UploadAction extends Action
 
                 if ($image->save($this->temp_path . $model->{$this->uploadParam}->name)) {
                     $result = [
-                        'filelink' => $model->{$this->uploadParam}->name
+                        'filelink' => $model->{$this->uploadParam}->name,
                     ];
                 } else {
                     $result = [

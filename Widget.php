@@ -15,6 +15,7 @@ class Widget extends InputWidget {
     public $label = '';
     public $uploadUrl;
     public $previewUrl;
+    public $tempPreviewUrl;
     public $noPhotoImage = '';
     public $maxSize = 2097152;
     public $cropAreaWidth = 300;
@@ -65,6 +66,7 @@ class Widget extends InputWidget {
         $settings = [
             'url' => $this->uploadUrl,
             'previewUrl' => $this->previewUrl,
+            'tempPreviewUrl' => $this->tempPreviewUrl,
             'name' => $this->uploadParameter,
             'maxSize' => $this->maxSize / 1024,
             'allowedExtensions' => explode(', ', $this->extensions),
