@@ -50,9 +50,13 @@
                     var y1 = ($img.height() - height) / 2;
                     var x2 = x1 + width;
                     var y2 = y1 + height;
+                    var aspectRatio = settings["aspectRatio"];
+                    if (aspectRatio === '' || aspectRatio === 'Auto') {
+                        aspectRatio = width / height;
+                    }
 
                     $img.Jcrop({
-                        aspectRatio: width / height,
+                        aspectRatio: aspectRatio,
                         setSelect: [x1, y1, x2, y2],
                         boxWidth: $widget.find('.new_photo_area').width(),
                         boxHeight: $widget.find('.new_photo_area').height()
@@ -82,28 +86,38 @@
         $widget.data('progress', $progress);
     };
 
-    $('.cropper_widget').on('click', '.delete_photo', function () {
-        var $widget = getWidget($(this));
-        var $thumbnail = $widget.find('.thumbnail');
-        $widget.find('.photo_field').val('');
-        $thumbnail.attr({'src': $thumbnail.data('no-photo')});
-    }).on('click', '.crop_photo', function () {
-        var $widget = getWidget($(this));
-        var $img = $widget.find('.new_photo_area img');
-        var data = $img.data('Jcrop').tellSelect();
-        data[yii.getCsrfParam()] = yii.getCsrfToken();
+    $('.cropper_widget')
+            .on('click', '.delete_photo', function () {
+                var $widget = getWidget($(this));
+                var $thumbnail = $widget.find('.thumbnail');
+                $widget.find('.photo_field').val('');
+                $thumbnail.attr({'src': $thumbnail.data('no-photo')});
+            })
+            .on('click', '.edit_photo', function () {
+                var $widget = getWidget($(this));
+                var $ImageCropBox = $widget.find('.image_crop_box');
+                $ImageCropBox.show();
 
-        var $uploader = $widget.data('uploader');
+            });
 
-        $uploader._queue[1] = $uploader._queue[0];
-        $uploader.setData(data);
+    $('.image_crop_box')
+            .on('click', '.crop_photo', function () {
+                var $widget = getWidget($(this));
+                var $img = $widget.find('.new_photo_area img');
+                var data = $img.data('Jcrop').tellSelect();
+                data[yii.getCsrfParam()] = yii.getCsrfToken();
 
-        var $progress = $widget.find('.progress');
-        $progress.removeClass('hidden');
-        $uploader.setProgressBar($progress.find('.progress-bar'));
+                var $uploader = $widget.data('uploader');
 
-        $uploader.submit();
-    });
+                $uploader._queue[1] = $uploader._queue[0];
+                $uploader.setData(data);
+
+                var $progress = $widget.find('.progress');
+                $progress.removeClass('hidden');
+                $uploader.setProgressBar($progress.find('.progress-bar'));
+
+                $uploader.submit();
+            });
 
     function getWidget($element)
     {
@@ -129,4 +143,5 @@
         }
         return false;
     }
+
 })(jQuery);

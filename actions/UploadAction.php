@@ -13,62 +13,43 @@ use yii\imagine\Image;
 use Imagine\Image\Box;
 use Yii;
 
+class UploadAction extends Action {
 
-class UploadAction extends Action
-{
-//    public $path;
-//    public $url;
     public $temp_path;
     public $uploadParam = 'file';
     public $maxSize = 2097152;
-    public $extensions = 'jpeg, jpg, png, gif' ;
+    public $extensions = 'jpeg, jpg, png, gif';
     public $width = 200;
     public $height = 200;
-    
 
     /**
      * @inheritdoc
      */
-    public function init()
-    {
+    public function init() {
         Widget::registerTranslations();
-//        if ($this->url === null) {
-//            throw new InvalidConfigException(Yii::t('cropper', 'MISS                                             ING_ATTRIBUTE', ['attribute' => 'url']));
-//        } else {
-//            $this->url = rtrim($this->url, '/') . '/';
-//        }
-//        
-//        if ($this->path === null) {
-//            throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'path']));
-//        } else {
-//            $this->path = rtrim(Yii::getAlias($this->path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-//        }
-        
         if ($this->temp_path === null) {
             throw new InvalidConfigException(Yii::t('cropper', 'MISSING_ATTRIBUTE', ['attribute' => 'temp_path']));
         } else {
             $this->temp_path = rtrim(Yii::getAlias($this->temp_path), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         }
-        
     }
 
     /**
      * @inheritdoc
      */
-    public function run()
-    {
+    public function run() {
         if (Yii::$app->request->isPost) {
             $file = UploadedFile::getInstanceByName($this->uploadParam);
             $model = new DynamicModel(compact($this->uploadParam));
-            
+
             $model->addRule($this->uploadParam, 'file', [
                 'maxSize' => $this->maxSize,
                 'tooBig' => Yii::t('cropper', 'TOO_BIG_ERROR', ['size' => $this->maxSize / (1024 * 1024)]),
                 'extensions' => explode(', ', $this->extensions),
-                'checkExtensionByMimeType' => false, 
+                'checkExtensionByMimeType' => false,
                 'wrongExtension' => Yii::t('cropper', 'EXTENSION_ERROR', ['formats' => $this->extensions])
             ])->validate();
-            
+
             if ($model->hasErrors()) {
                 $result = [
                     'error' => $model->getFirstError($this->uploadParam)
@@ -78,12 +59,9 @@ class UploadAction extends Action
                 $request = Yii::$app->request;
 
                 $image = Image::crop(
-                    $file->tempName . $request->post('filename'),
-                    intval($request->post('w')),
-                    intval($request->post('h')),
-                    [$request->post('x'), $request->post('y')]
-                )->resize(
-                    new Box($this->width, $this->height)
+                                $file->tempName . $request->post('filename'), intval($request->post('w')), intval($request->post('h')), [$request->post('x'), $request->post('y')]
+                        )->resize(
+                        new Box($this->width, $this->height)
                 );
 
                 if ($image->save($this->temp_path . $model->{$this->uploadParam}->name)) {
@@ -103,4 +81,5 @@ class UploadAction extends Action
             throw new BadRequestHttpException(Yii::t('cropper', 'ONLY_POST_REQUEST'));
         }
     }
+
 }

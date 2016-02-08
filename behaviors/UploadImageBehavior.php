@@ -47,7 +47,8 @@ class UploadImageBehavior extends Behavior {
 
     public function events() {
         return [
-            ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert',
+            //    ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert',
+            ActiveRecord::EVENT_AFTER_INSERT => 'afterInsert',
             ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate',
             ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
             ActiveRecord::EVENT_AFTER_UPDATE => 'afterUpdate'
@@ -75,11 +76,6 @@ class UploadImageBehavior extends Behavior {
                 }
                 $this->attributes[$attribute]['path'] = FileHelper::normalizePath(Yii::getAlias($config['path'])) . DIRECTORY_SEPARATOR;
                 $this->attributes[$attribute]['temp_path'] = FileHelper::normalizePath(Yii::getAlias($config['temp_path'])) . DIRECTORY_SEPARATOR;
-
-                if (isset($config['key_folder'])) {
-                    $this->keyFolder = $config['key_folder'];
-                }
-
                 $this->attributes[$attribute]['url'] = rtrim($config['url'], '/') . '/';
 
                 $validator = Validator::createValidator('string', $this->owner, $attribute);
@@ -124,6 +120,13 @@ class UploadImageBehavior extends Behavior {
         return false;
     }
 
+    protected function deletePath($path) {
+        if (is_dir($path)) {
+            return rmdir($path);
+        }
+        return false;
+    }
+
     /**
      * @param string $attribute Attribute name
      *
@@ -139,7 +142,11 @@ class UploadImageBehavior extends Behavior {
      * @return string Path to file
      */
     public function path($attribute) {
-        return $this->attributes[$attribute]['path'];
+        if ($this->folderID($attribute) == null) {
+            return $this->attributes[$attribute]['path'];
+        } else {
+            return FileHelper::normalizePath($this->attributes[$attribute]['path'] . $this->folderID($attribute)) . DIRECTORY_SEPARATOR;
+        }
     }
 
     public function tempFile($attribute) {
@@ -148,6 +155,11 @@ class UploadImageBehavior extends Behavior {
 
     public function tempPath($attribute) {
         return $this->attributes[$attribute]['temp_path'];
+    }
+
+    public function folderID($attribute) {
+        $key_folder = $this->owner->getAttributes([$this->attributes[$attribute]['key_folder']]);
+        return $key_folder[$this->attributes[$attribute]['key_folder']];
     }
 
     public function file($attribute) {
@@ -198,7 +210,10 @@ class UploadImageBehavior extends Behavior {
         return FileHelper::getMimeType($this->file($attribute));
     }
 
-    public function beforeInsert() {
+    /**
+     * 
+     */
+    public function afterInsert() {
         foreach ($this->attributes as $attribute => $config) {
             if ($this->owner->$attribute) {
                 $this->saveFile($attribute);
@@ -227,6 +242,14 @@ class UploadImageBehavior extends Behavior {
             foreach ($this->attributes as $attribute => $config) {
                 if ($this->owner->$attribute) {
                     $this->deleteFile($this->file($attribute));
+                }
+            }
+
+            foreach ($this->attributes as $attribute => $config) {
+                if ($this->owner->$attribute) {
+                    if (!$this->folderID($attribute) == null) {
+                        $this->deletePath($this->path($attribute));
+                    }
                 }
             }
         }

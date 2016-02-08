@@ -19,3 +19,8 @@
 .new_photo_area img {
     visibility: hidden;
 }
+
+.image_crop_box {
+   // visibility: hidden;
+    display: none;
+}
