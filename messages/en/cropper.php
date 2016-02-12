@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Message translations.
  *
@@ -21,6 +22,7 @@ return [
     'CROP_PHOTO' => 'Crop photo',
     'DELETE_PHOTO' => 'Delete photo',
     'EDIT_PHOTO' => 'Edit photo',
+    'ROTATE_CW_PHOTO' => 'Rotate CW photo',
     'ERROR_CAN_NOT_UPLOAD_FILE' => 'Can`t upload file',
     'MISSING_ATTRIBUTE' => 'Attibute "{attribute}" must be specified',
     'ONLY_POST_REQUEST' => 'Allowed only POST-request',

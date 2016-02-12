@@ -22,6 +22,10 @@ use yii\helpers\Html;
 
     <div class="image_crop_box">
          <div class="cropper_buttons hidden">
+             <button type="button" class="btn btn-success rotate_cw_photo btn-sm" aria-label="<?= Yii::t('cropper', 'ROTATE_CW_PHOTO'); ?>">
+                <?= Yii::t('cropper', 'ROTATE_CW_PHOTO'); ?>
+            </button>
+             
             <button type="button" class="btn btn-success crop_photo btn-sm" aria-label="<?= Yii::t('cropper', 'CROP_PHOTO'); ?>">
                 <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span> <?= Yii::t('cropper', 'CROP_PHOTO'); ?>
             </button>
