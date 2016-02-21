@@ -1,10 +1,12 @@
+var jcrop_api;
+
 (function ($) {
     $.fn.cropper = function (options, width, height) {
         var $widget = getWidget(this);
         var $progress = $widget.find('.progress');
         var buttons = [
             $widget.find('.cropper_label'),
-            $widget.find('.upload_new_photo')
+            $widget.find('.upload_new_photo'),
         ];
 
         var settings = $.extend({
@@ -14,13 +16,13 @@
             noParams: true,
             multipart: true,
             autoSubmit: false,
+            debug: true,
+            maxSize: options['maxSize'],
             onChange: function (filename, extension, size) {
                 this.clearQueue();
-
                 $progress.removeClass('hidden').find('.progress-bar').css({'width': '55%'});
-
                 if (size > options['maxSize']) {
-                    $widget.parents('.form-group').addClass('has-error').find('.help-block-error').text(options['size_error_text']);
+                    $widget.parents('.form-group').addClass('has-error').find('.help-block').text(options['size_error_text']);
                     $progress.addClass('hidden');
                     return false;
                 }
@@ -34,8 +36,8 @@
                 showError($widget, '');
                 $widget.find('.cropper_buttons').removeClass('hidden');
                 $widget.find('.cropper_label').addClass('hidden');
-
                 var reader = new FileReader();
+
                 reader.onload = function (e) {
                     var $img = $widget.find('.new_photo_area img');
                     if ($img.length) {
@@ -45,7 +47,6 @@
 
                     $widget.find('.new_photo_area').append('<img src="' + e.target.result + '">');
                     $img = $widget.find('.new_photo_area img');
-
                     var x1 = ($img.width() - width) / 2;
                     var y1 = ($img.height() - height) / 2;
                     var x2 = x1 + width;
@@ -55,17 +56,34 @@
                         aspectRatio = width / height;
                     }
 
+                    if (!settings["cropImage"]) {
+                        // select all area
+                        x1 = 0;
+                        y1 = 0;
+                        x2 = ($img.width());
+                        y2 = ($img.height());
+                    }
+
+
                     $img.Jcrop({
                         aspectRatio: aspectRatio,
                         setSelect: [x1, y1, x2, y2],
                         boxWidth: $widget.find('.new_photo_area').width(),
-                        boxHeight: $widget.find('.new_photo_area').height()
+                        boxHeight:$widget.find('.new_photo_area').height(),
+                    }, function () {
+                        jcrop_api = this;
                     });
 
+                    if (!settings["cropImage"]) {
+                        jcrop_api.disable();
+                    }
+
                     $progress.addClass('hidden').find('.progress-bar').css({'width': '0%'});
-                }
+                };
 
                 reader.readAsDataURL(this._input.files[0]);
+
+
             },
             onComplete: function (filename, response) {
                 $progress.addClass('hidden');
@@ -102,11 +120,12 @@
 
     $('.image_crop_box')
             .on('click', '.crop_photo', function () {
+
                 var $widget = getWidget($(this));
                 var $img = $widget.find('.new_photo_area img');
                 var data = $img.data('Jcrop').tellSelect();
-                data[yii.getCsrfParam()] = yii.getCsrfToken();
 
+                data[yii.getCsrfParam()] = yii.getCsrfToken();
                 var $uploader = $widget.data('uploader');
 
                 $uploader._queue[1] = $uploader._queue[0];
@@ -117,7 +136,8 @@
                 $uploader.setProgressBar($progress.find('.progress-bar'));
 
                 $uploader.submit();
-            });
+            })
+            ;
 
     function getWidget($element)
     {
@@ -127,9 +147,9 @@
     function showError($widget, error)
     {
         if (error == '') {
-            $widget.parents('.form-group').removeClass('has-error').find('.help-block-error').text('');
+            $widget.parents('.form-group').removeClass('has-error').find('.help-block').text('');
         } else {
-            $widget.parents('.form-group').addClass('has-error').find('.help-block-error').text(error);
+            $widget.parents('.form-group').addClass('has-error').find('.help-block').text(error);
         }
     }
 

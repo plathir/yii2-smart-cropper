@@ -28,7 +28,8 @@ class Asset extends AssetBundle {
     public $js = [
         'js/jquery.Jcrop.min.js',
         'js/SimpleAjaxUploader.min.js',
-        'js/cropper.js'
+        'js/cropper.js',
+        'js/jQueryRotate.js'
     ];
 
     /**

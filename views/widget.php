@@ -5,27 +5,25 @@ use yii\helpers\Html;
 
 <div class="cropper_widget">
 
-    <button type="button" class="btn btn-danger delete_photo" aria-label="<?= Yii::t('cropper', 'DELETE_PHOTO'); ?>">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?= Yii::t('cropper', 'DELETE_PHOTO'); ?>
+    <button type="button" class="btn btn-danger delete_photo">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
     </button>
-    
+
     <button type="button" class="btn btn-success edit_photo" aria-label="<?= Yii::t('cropper', 'EDIT_PHOTO'); ?>">
-        <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> <?= Yii::t('cropper', 'EDIT_PHOTO'); ?>
+        <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </button>
 
     <?= Html::activeHiddenInput($model, $widget->attribute, ['class' => 'photo_field']); ?>
-    <?=
-    Html::img(
-            ($model->{$widget->attribute} != '') ? $widget->previewUrl . '/' . $model->{$widget->attribute} : $widget->noPhotoImage, ['style' => 'height: ' . $widget->height . 'px; width: ' . $widget->width . 'px', 'class' => 'thumbnail left-block img-responsive', 'data-no-photo' => $widget->noPhotoImage]
-    );
-    ?>
+    <div>
+        <?=
+        Html::img(
+                ($model->{$widget->attribute} != '') ? $widget->previewUrl . '/' . $model->{$widget->attribute} : $widget->noPhotoImage, ['style' => 'height: ' . $widget->height . 'px; width: ' . $widget->width . 'px', 'class' => 'thumbnail left-block', 'data-no-photo' => $widget->noPhotoImage]
+        );
+        ?>
+    </div>
 
     <div class="image_crop_box">
-         <div class="cropper_buttons hidden">
-             <button type="button" class="btn btn-success rotate_cw_photo btn-sm" aria-label="<?= Yii::t('cropper', 'ROTATE_CW_PHOTO'); ?>">
-                <?= Yii::t('cropper', 'ROTATE_CW_PHOTO'); ?>
-            </button>
-             
+        <div class="cropper_buttons hidden">
             <button type="button" class="btn btn-success crop_photo btn-sm" aria-label="<?= Yii::t('cropper', 'CROP_PHOTO'); ?>">
                 <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span> <?= Yii::t('cropper', 'CROP_PHOTO'); ?>
             </button>

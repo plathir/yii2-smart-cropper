@@ -13,12 +13,12 @@ use yii\imagine\Image;
 use Imagine\Image\Box;
 use Yii;
 
-class UploadAction extends Action {
 
+class UploadAction extends Action {
     public $temp_path;
     public $uploadParam = 'file';
-    public $maxSize = 2097152;
-    public $extensions = 'jpeg, jpg, png, gif';
+    public $maxSize = 3145728;  //3MB
+    public $extensions = 'jpeg, JPEG, jpg, JPG, png, PNG, gif, GIF';
     public $width = 200;
     public $height = 200;
 
@@ -81,5 +81,4 @@ class UploadAction extends Action {
             throw new BadRequestHttpException(Yii::t('cropper', 'ONLY_POST_REQUEST'));
         }
     }
-
 }

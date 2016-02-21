@@ -1,5 +1,6 @@
 .new_photo_area {
-    border: dashed 2px #EEEEEE;
+  //  border: dashed 2px #EEEEEE;
+    border: dashed 2px #A9A9A9;
     box-sizing: content-box;
     margin: 20px 0px;
     text-align: center;
@@ -11,6 +12,7 @@
     display: table;
     height: 100%;
     width: 100%;
+  //border: 1px solid red;
 }
 .new_photo_area .cropper_label span {
     display: table-cell;
@@ -21,6 +23,5 @@
 }
 
 .image_crop_box {
-   // visibility: hidden;
     display: none;
 }

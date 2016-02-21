@@ -13,16 +13,17 @@ class Widget extends InputWidget {
     public $width = 200;
     public $height = 200;
     public $aspectRatio = 'Auto';
+    public $cropImage = true;
     public $label = '';
     public $uploadUrl;
     public $previewUrl;
     public $KeyFolder;
     public $tempPreviewUrl;
     public $noPhotoImage = '';
-    public $maxSize = 2097152;
-    public $cropAreaWidth = 300;
-    public $cropAreaHeight = 300;
-    public $extensions = 'jpeg, jpg, png, gif';
+    public $maxSize = 3145728; // 3MB
+    public $cropAreaWidth = 400;
+    public $cropAreaHeight = 400;
+    public $extensions = 'jpeg, JPEG, jpg, JPG, png, PNG, gif, GIF';
 
     /**
      * @inheritdoc
@@ -36,9 +37,9 @@ class Widget extends InputWidget {
         } else {
             $this->uploadUrl = rtrim(Yii::getAlias($this->uploadUrl), '/') . '/';
         }
-        
+
         if ($this->KeyFolder) {
-          $this->previewUrl = $this->previewUrl. '/'. $this->KeyFolder;
+            $this->previewUrl = $this->previewUrl . '/' . $this->KeyFolder;
         }
 
         if ($this->label == '') {
@@ -68,25 +69,21 @@ class Widget extends InputWidget {
         if ($this->noPhotoImage == '') {
             $this->noPhotoImage = $assets->baseUrl . '/img/nophoto.png';
         }
-//        echo $this->previewUrl. '<br>';
-//        echo $this->KeyFolder. '<br>';
-//        die();
-        
         $settings = [
             'url' => $this->uploadUrl,
             'previewUrl' => $this->previewUrl,
             'tempPreviewUrl' => $this->tempPreviewUrl,
             'name' => $this->uploadParameter,
             'aspectRatio' => $this->aspectRatio,
+            'cropImage' => $this->cropImage,
             'maxSize' => $this->maxSize / 1024,
             'allowedExtensions' => explode(', ', $this->extensions),
             'size_error_text' => Yii::t('cropper', 'TOO_BIG_ERROR', ['size' => $this->maxSize / (1024 * 1024)]),
             'ext_error_text' => Yii::t('cropper', 'EXTENSION_ERROR', ['formats' => $this->extensions]),
             'accept' => 'image/*'
         ];
-
         $view->registerJs(
-           //     'jQuery("#' . $this->options['id'] . '").siblings(".new_photo_area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
+                //     'jQuery("#' . $this->options['id'] . '").siblings(".new_photo_area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
                 'jQuery("#' . $this->options['id'] . '").siblings(".image_crop_box").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
         );
     }

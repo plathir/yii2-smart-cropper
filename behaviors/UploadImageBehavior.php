@@ -38,7 +38,7 @@ class UploadImageBehavior extends Behavior {
      * @var boolean If `true` current attribute file will be deleted after model deletion
      */
     public $unlinkOnDelete = true;
-    public $keyFolder = null;
+    public $keyFolder;
 
     /**
      * @var array Publish path cache array
@@ -143,7 +143,7 @@ class UploadImageBehavior extends Behavior {
      */
     public function path($attribute) {
         if ($this->folderID($attribute) == null) {
-            return $this->attributes[$attribute]['path'];
+            return FileHelper::normalizePath($this->attributes[$attribute]['path']). DIRECTORY_SEPARATOR ;
         } else {
             return FileHelper::normalizePath($this->attributes[$attribute]['path'] . $this->folderID($attribute)) . DIRECTORY_SEPARATOR;
         }
@@ -158,8 +158,20 @@ class UploadImageBehavior extends Behavior {
     }
 
     public function folderID($attribute) {
-        $key_folder = $this->owner->getAttributes([$this->attributes[$attribute]['key_folder']]);
-        return $key_folder[$this->attributes[$attribute]['key_folder']];
+        // check if exist key_folder 
+        if (isset($this->attributes[$attribute]['key_folder'])) {
+            $this->keyFolder = true;
+          } else {
+              $this->keyFolder = false;
+          }
+
+        if ($this->keyFolder) {
+            // return key_folder value from model field
+            $key_folder = $this->owner->getAttributes([$this->attributes[$attribute]['key_folder']]);
+            return $key_folder[$this->attributes[$attribute]['key_folder']];
+        } else {
+            return null;
+        }
     }
 
     public function file($attribute) {
