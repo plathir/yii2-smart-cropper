@@ -14,7 +14,7 @@
     "require": {
         "yiisoft/yii2": "*",
         "yiisoft/yii2-imagine": "*",
-        "plathir/yii2-smart-upload": "@dev"
+        "plathir/yii2-smart-upload": "*"
     },
     "autoload": {
         "psr-4": {
