@@ -6,9 +6,9 @@ var jcrop_api;
         var $progress = $widget.find('.progress');
         var buttons = [
             $widget.find('.cropper_label'),
-            $widget.find('.upload_new_photo'),
+            $widget.find('.upload_new_photo')
         ];
-
+     
         var settings = $.extend({
             button: buttons,
             dropzone: $widget.find('.cropper_label'),
@@ -69,7 +69,7 @@ var jcrop_api;
                         aspectRatio: aspectRatio,
                         setSelect: [x1, y1, x2, y2],
                         boxWidth: $widget.find('.new_photo_area').width(),
-                        boxHeight:$widget.find('.new_photo_area').height(),
+                        boxHeight: $widget.find('.new_photo_area').height()
                     }, function () {
                         jcrop_api = this;
                     });
@@ -95,7 +95,7 @@ var jcrop_api;
                 $widget.find('.photo_field').val(response.filelink);
             },
             onSizeError: function () {
-                showError($widget, options['size_error_text'])
+                showError($widget, options['size_error_text']);
             }
         }, options);
 

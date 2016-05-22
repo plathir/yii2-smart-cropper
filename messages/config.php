@@ -2,7 +2,7 @@
 
 return [
     'sourcePath' => __DIR__ . DIRECTORY_SEPARATOR . '..',
-    'languages' => ['ru', 'en'],
+    'languages' => ['en'],
     'translator' => 'Yii::t',
     'sort' => false,
     'removeUnused' => false,
