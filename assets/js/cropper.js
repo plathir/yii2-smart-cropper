@@ -114,7 +114,13 @@ var jcrop_api;
             .on('click', '.edit_photo', function () {
                 var $widget = getWidget($(this));
                 var $ImageCropBox = $widget.find('.image_crop_box');
-                $ImageCropBox.show();
+                console.log($ImageCropBox.is(":visible"));
+                if ($ImageCropBox.is(":visible") ) {
+                    $ImageCropBox.hide();
+                } else {
+                    $ImageCropBox.show();
+                }
+                
 
             });
 

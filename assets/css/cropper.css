@@ -10,8 +10,7 @@
     padding: 10px;
     display: table;
     height: 100%;
-    width: 100%;
-  //border: 1px solid red;
+    width: 100%
 }
 .new_photo_area .cropper_label span {
     display: table-cell;

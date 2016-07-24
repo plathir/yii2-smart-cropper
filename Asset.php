@@ -29,7 +29,6 @@ class Asset extends AssetBundle {
         'js/jquery.Jcrop.min.js',
         'js/SimpleAjaxUploader.min.js',
         'js/cropper.js',
-        'js/jQueryRotate.js'
     ];
 
     /**
