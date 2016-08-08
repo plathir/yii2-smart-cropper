@@ -8,7 +8,7 @@ var jcrop_api;
             $widget.find('.cropper_label'),
             $widget.find('.upload_new_photo')
         ];
-     
+
         var settings = $.extend({
             button: buttons,
             dropzone: $widget.find('.cropper_label'),
@@ -114,13 +114,13 @@ var jcrop_api;
             .on('click', '.edit_photo', function () {
                 var $widget = getWidget($(this));
                 var $ImageCropBox = $widget.find('.image_crop_box');
-                console.log($ImageCropBox.is(":visible"));
-                if ($ImageCropBox.is(":visible") ) {
+                //console.log($ImageCropBox.is(":visible"));
+                if ($ImageCropBox.is(":visible")) {
                     $ImageCropBox.hide();
                 } else {
                     $ImageCropBox.show();
                 }
-                
+
 
             });
 
