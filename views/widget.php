@@ -14,13 +14,19 @@ use yii\helpers\Html;
     </button>
 
     <?= Html::activeHiddenInput($model, $widget->attribute, ['class' => 'photo_field']); ?>
-    <div>
-        <?=
-        Html::img(
-                ($model->{$widget->attribute} != '') ? $widget->previewUrl . '/' . $model->{$widget->attribute} : $widget->noPhotoImage, ['style' => 'height: ' . $widget->height . 'px; width: ' . $widget->width . 'px', 'class' => 'thumbnail left-block', 'data-no-photo' => $widget->noPhotoImage]
-        );
-        ?>
-    </div>
+    <div class="row">
+        <div class ="col-lg-4">
+            <?=
+            Html::img(
+                    //($model->{$widget->attribute} != '') ? $widget->previewUrl . '/' . $model->{$widget->attribute} : $widget->noPhotoImage, ['style' => 'max-height: ' . $widget->height . 'px; max-width: ' . $widget->width . 'px', 'class' => 'thumbnail left-block', 'data-no-photo' => $widget->noPhotoImage]
+                    ($model->{$widget->attribute} != '') ? $widget->previewUrl . '/' . $model->{$widget->attribute} : $widget->noPhotoImage, ['style' => '', 'class' => 'thumbnail left-block img-responsive', 'data-no-photo' => $widget->noPhotoImage]
+            );
+            ?>
+        </div>
+        <div class ="col-lg-8">
+
+        </div>
+    </div>    
 
     <div class="image_crop_box">
         <div class="cropper_buttons hidden">
