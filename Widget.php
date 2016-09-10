@@ -24,6 +24,8 @@ class Widget extends InputWidget {
     public $cropAreaWidth = 400;
     public $cropAreaHeight = 400;
     public $extensions = 'jpeg, JPEG, jpg, JPG, png, PNG, gif, GIF';
+    public $display_width = 200;
+    public $display_height = 200;
 
     /**
      * @inheritdoc
@@ -44,6 +46,21 @@ class Widget extends InputWidget {
 
         if ($this->label == '') {
             $this->label = Yii::t('cropper', 'DEFAULT_LABEL');
+        }
+        // keep aspect ratio
+        $ratio1 = $this->width / $this->height;
+        $ratio2 = $this->display_width / $this->display_height;
+
+        if ($ratio1 != $ratio2) {
+            if ($ratio1 > 1) {
+                $target_width = $this->display_width;
+                $target_height = $this->display_width / $ratio1;
+            } else {
+                $target_width = $this->display_height * $ratio1;
+                $target_height = $this->display_height;
+            }
+            $this->display_width = $target_width;
+            $this->display_height = $target_height;
         }
     }
 
@@ -84,7 +101,7 @@ class Widget extends InputWidget {
         ];
         $view->registerJs(
                 //     'jQuery("#' . $this->options['id'] . '").siblings(".new_photo_area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
-                   'jQuery("#' . $this->options['id'] . '").siblings(".image_crop_box").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY           
+                'jQuery("#' . $this->options['id'] . '").siblings(".image_crop_box").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
         );
     }
 
