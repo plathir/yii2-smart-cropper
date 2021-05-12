@@ -98,7 +98,7 @@ class Widget extends InputWidget {
             'size_error_text' => Yii::t('cropper', 'TOO_BIG_ERROR', ['size' => $this->maxSize / (1024 * 1024)]),
             'ext_error_text' => Yii::t('cropper', 'EXTENSION_ERROR', ['formats' => $this->extensions]),
             'accept' => 'image/*'
-        ];
+        ];               
         $view->registerJs(
                 //     'jQuery("#' . $this->options['id'] . '").siblings(".new_photo_area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
                 'jQuery("#' . $this->options['id'] . '").siblings(".image_crop_box").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');', $view::POS_READY
